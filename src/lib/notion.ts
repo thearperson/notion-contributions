@@ -17,6 +17,9 @@ interface NotionEntry {
       date: {
         start: string;
       };
+      status: {
+        name: string;
+      };
     };
   };
   [key: string]: unknown;
@@ -54,12 +57,6 @@ export async function getDatabaseEntries(databaseId: string): Promise<NotionEntr
   try {
     const response = await notionClient.databases.query({
       database_id: databaseId,
-      filter: {
-        property: 'Status',
-        status: {
-          equals: 'Done',
-        },
-      },
     });
     return response.results as NotionEntry[];
   } catch (error) {
@@ -68,12 +65,35 @@ export async function getDatabaseEntries(databaseId: string): Promise<NotionEntr
   }
 }
 
-// Process data for contribution calendar
-export function processDataForCalendar(entries: NotionEntry[]): Map<string, number> {
+export function processDataForToto(entries: NotionEntry[]): Map<string, number> {
   // Count entries by date
   const dateCountMap = new Map<string, number>();
 
   entries.forEach((entry: NotionEntry) => {
+    const status = entry.properties['Status']['status']['name'];
+    if (status === 'Done') {
+      return;
+    }
+    const dateString = entry.properties['Due']['date']['start'];
+
+    // Increment count for this date
+    const currentCount = dateCountMap.get(dateString) || 0;
+    dateCountMap.set(dateString, currentCount + 1);
+  });
+
+  return dateCountMap;
+}
+
+// Process data for completion calendar
+export function processDataForCompletion(entries: NotionEntry[]): Map<string, number> {
+  // Count entries by date
+  const dateCountMap = new Map<string, number>();
+
+  entries.forEach((entry: NotionEntry) => {
+    const status = entry.properties['Status']['status']['name'];
+    if (status !== 'Done') {
+      return;
+    }
     const dateString = entry.properties['Complete']['date']['start'];
 
     // Increment count for this date

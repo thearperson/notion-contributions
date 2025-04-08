@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import {
   getDatabaseInfo,
   getDatabaseEntries,
-  processDataForCalendar,
+  processDataForCompletion,
   generateCalendarData
 } from '@/lib/notion';
 import { isValidDatabaseId, getContributionStats } from '@/lib/utils';
@@ -28,7 +28,7 @@ export async function GET(
   ]);
 
   // Process the entries for the calendar
-  const dateCountMap = processDataForCalendar(databaseEntries);
+  const dateCountMap = processDataForCompletion(databaseEntries);
 
   // Generate calendar data
   const calendarData = generateCalendarData(dateCountMap);

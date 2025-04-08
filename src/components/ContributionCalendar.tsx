@@ -15,9 +15,10 @@ interface DayData {
 
 interface CalendarProps {
   calendarData: DayData[][];
+  isCompletion: boolean;
 }
 
-const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
+const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData, isCompletion }) => {
   // Months for top labels
   const monthLabels = [
     'Jan',
@@ -79,8 +80,11 @@ const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
                   key={`day-${day.date}`}
                   className="day-cell"
                   style={{
-                    backgroundColor: getIntensityColor(day.intensity),
-                    border: day.isCurrentMonth ? '1px solid rgba(0, 0, 255, 0.2)' : '1px solid transparent'
+                    backgroundColor: getIntensityColor(day.intensity, isCompletion),
+                    border: day.isCurrentMonth ?
+                      isCompletion ? '1px solid rgba(0, 0, 255, 0.2)' :
+                      '1px solid rgba(255, 128, 128, 0.2)' :
+                      '1px solid transparent'
                   }}
                   title={`${day.date}: ${day.count} contribution${day.count !== 1 ? 's' : ''}`}
                 />
@@ -97,7 +101,7 @@ const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
           <div
             key={`legend-${level}`}
             className="legend-cell"
-            style={{ backgroundColor: getIntensityColor(level) }}
+            style={{ backgroundColor: getIntensityColor(level, isCompletion) }}
           />
         ))}
         <span>More</span>
@@ -136,6 +140,7 @@ const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
           justify-content: space-between;
           padding: 10px 5px 10px 0;
           color: #666;
+          opacity: 0.6;
           font-size: 12px;
           height: 120px;
         }

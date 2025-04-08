@@ -30,13 +30,15 @@ interface DatabasePageClientProps {
     longestStreak: number;
     bestDay: { date: string; count: number } | null;
   };
-  calendarData: DayData[][];
+  completionData: DayData[][];
+  totoData: DayData[][];
 }
 
 const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
   databaseId,
   stats,
-  calendarData
+  completionData,
+  totoData
 }) => {
   return (
     <div className="database-container">
@@ -63,7 +65,8 @@ const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
             )}
           </div>
 
-          <ContributionCalendar calendarData={calendarData} />
+          <ContributionCalendar calendarData={completionData} isCompletion={true} />
+          <ContributionCalendar calendarData={totoData} isCompletion={false} />
 
           <div className="database-footer">
             <p className="database-id">Database ID: {databaseId}</p>

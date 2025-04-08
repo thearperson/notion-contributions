@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation';
 import {
   getDatabaseInfo,
   getDatabaseEntries,
-  processDataForCalendar,
+  processDataForCompletion,
+  processDataForToto,
   generateCalendarData
 } from '@/lib/notion';
 import { isValidDatabaseId, getContributionStats } from '@/lib/utils';
@@ -24,18 +25,20 @@ async function fetchDatabaseData(databaseId: string) {
     ]);
 
     // Process the entries for the calendar
-    const dateCountMap = processDataForCalendar(databaseEntries);
+    const completedTaskMap = processDataForCompletion(databaseEntries);
+    const totoTaskMap = processDataForToto(databaseEntries);
 
     // Generate calendar data
-    const calendarData = generateCalendarData(dateCountMap);
-
+    const completionData = generateCalendarData(completedTaskMap);
+    const totoData = generateCalendarData(totoTaskMap);
     // Calculate statistics
-    const stats = getContributionStats(calendarData);
+    const stats = getContributionStats(completionData);
 
     return {
       databaseInfo,
       stats,
-      calendarData
+      completionData,
+      totoData
     };
   } catch (error) {
     console.error('Error fetching database data:', error);
@@ -56,13 +59,14 @@ export default async function DatabasePage(
     notFound();
   }
 
-  const { databaseInfo, stats, calendarData } = data;
+  const { databaseInfo, stats, completionData, totoData } = data;
 
   // Pass the data to the client component
   return <DatabasePageClient
     databaseId={databaseId}
     databaseInfo={databaseInfo}
     stats={stats}
-    calendarData={calendarData}
+    completionData={completionData}
+    totoData={totoData}
   />;
 }

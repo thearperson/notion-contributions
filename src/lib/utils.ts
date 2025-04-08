@@ -8,16 +8,26 @@ export function isValidDatabaseId(id: string): boolean {
 }
 
 // Generate a color based on intensity level (0-4)
-export function getIntensityColor(intensity: number): string {
+export function getIntensityColor(intensity: number, isCompletion: boolean): string {
   // Blue color palette (from light to dark)
-  const colors = [
-    '#f5f9ff', // Level 0 - Almost white/very light blue
-    '#dbeafe', // Level 1 - Light blue
-    '#93c5fd', // Level 2 - Medium blue
-    '#3b82f6', // Level 3 - Blue
-    '#1d4ed8', // Level 4 - Dark blue
-  ];
-
+  let colors = [];
+  if (isCompletion) {
+    colors = [
+      '#f5f9ff', // Level 0 - Almost white/very light blue
+      '#dbeafe', // Level 1 - Light blue
+      '#93c5fd', // Level 2 - Medium blue
+      '#3b82f6', // Level 3 - Blue
+      '#1d4ed8', // Level 4 - Dark blue
+    ];
+  } else {
+    colors = [
+      '#f5f5f5', // Level 0 - gray
+      '#fee2e2', // Level 1 - Light red
+      '#fca5a5', // Level 2 - Medium red
+      '#ef4444', // Level 3 - Red
+      '#b91c1c', // Level 4 - Dark red
+    ];
+  }
   return colors[intensity] || colors[0];
 }
 
