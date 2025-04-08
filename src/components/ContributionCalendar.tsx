@@ -105,8 +105,8 @@ const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
 
       <style jsx>{`
         .calendar-container {
-          margin: 20px 0;
-          width: 100%;
+          margin: 20px auto;
+          width: 772px;
           overflow-x: auto;
         }
 
