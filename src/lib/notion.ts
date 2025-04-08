@@ -65,17 +65,15 @@ export async function getDatabaseEntries(databaseId: string): Promise<NotionEntr
 export function processDataForCalendar(entries: NotionEntry[]): Map<string, number> {
   // Count entries by date
   const dateCountMap = new Map<string, number>();
-  
+
   entries.forEach(entry => {
-    // Get the date from the Last edited time property
-    const lastEditedTime = entry.last_edited_time;
-    const dateString = format(parseISO(lastEditedTime), 'yyyy-MM-dd');
-    
+    const dateString = entry.properties['Complete']['date']['start'];
+
     // Increment count for this date
     const currentCount = dateCountMap.get(dateString) || 0;
     dateCountMap.set(dateString, currentCount + 1);
   });
-  
+
   return dateCountMap;
 }
 
@@ -85,20 +83,20 @@ export function generateCalendarData(dateCountMap: Map<string, number>): DayData
   const now = new Date();
   const yearStart = startOfYear(now);
   const yearEnd = endOfYear(now);
-  
+
   // Generate all days in the year (not used directly)
   eachDayOfInterval({ start: yearStart, end: yearEnd });
-  
+
   // Find the first Sunday to start the calendar
   let calendarStart = yearStart;
   while (getDay(calendarStart) !== 0) {
     calendarStart = addDays(calendarStart, -1);
   }
-  
+
   // Structure weeks and days
   const weeks: DayData[][] = [];
   let currentWeek: DayData[] = [];
-  
+
   // Create calendar grid (7 days per week)
   for (let i = 0; i < 53; i++) {
     currentWeek = [];
@@ -106,7 +104,7 @@ export function generateCalendarData(dateCountMap: Map<string, number>): DayData
       const currentDate = addDays(calendarStart, i * 7 + j);
       const dateString = format(currentDate, 'yyyy-MM-dd');
       const count = dateCountMap.get(dateString) || 0;
-      
+
       // Determine intensity based on count (0-4 scale)
       let intensity = 0;
       if (count > 0) {
@@ -115,7 +113,7 @@ export function generateCalendarData(dateCountMap: Map<string, number>): DayData
         else if (count <= 5) intensity = 3;
         else intensity = 4;
       }
-      
+
       currentWeek.push({
         date: dateString,
         count,
@@ -127,6 +125,6 @@ export function generateCalendarData(dateCountMap: Map<string, number>): DayData
     }
     weeks.push(currentWeek);
   }
-  
+
   return weeks;
 }

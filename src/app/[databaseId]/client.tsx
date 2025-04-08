@@ -34,32 +34,21 @@ interface DatabasePageClientProps {
   calendarData: DayData[][];
 }
 
-const DatabasePageClient: React.FC<DatabasePageClientProps> = ({ 
-  databaseId, 
-  databaseInfo, 
-  stats, 
-  calendarData 
+const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
+  databaseId,
+  databaseInfo,
+  stats,
+  calendarData
 }) => {
   return (
     <div className="database-container">
-      <header>
-        <div className="header-content">
-          <h1>
-            <Link href="/">
-              Notion Contributions
-            </Link>
-          </h1>
-          <p className="subtitle">Track your task completions like GitHub contributions</p>
-        </div>
-      </header>
-      
       <main>
         <div className="main-content">
           <div className="database-header">
             <h2>{databaseInfo.title?.[0]?.plain_text || 'Untitled Database'}</h2>
             <p className="database-id">Database ID: {databaseId}</p>
           </div>
-          
+
           <div className="stats-container">
             <div className="stat-card">
               <h3>{stats.totalContributions}</h3>
@@ -80,38 +69,15 @@ const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
               </div>
             )}
           </div>
-          
+
           <div className="calendar-wrapper">
             <h3>Contribution Calendar</h3>
             <ContributionCalendar calendarData={calendarData} />
           </div>
-          
-          <div className="embed-instructions">
-            <h3>Embed This Calendar</h3>
-            <p>To embed this calendar in a Notion page:</p>
-            <ol>
-              <li>Copy this URL: <code>{`${process.env.NEXT_PUBLIC_BASE_URL || 'https://your-domain.com'}/${databaseId}`}</code></li>
-              <li>In Notion, type <code>/embed</code> and select the &quot;Embed&quot; option</li>
-              <li>Paste the URL and click &quot;Embed link&quot;</li>
-            </ol>
-            <div className="embed-preview">
-              <div className="preview-header">Preview</div>
-              <div className="preview-content">
-                <div className="preview-placeholder">
-                  <p>Your embedded contribution calendar will appear here</p>
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
       </main>
-      
-      <footer>
-        <div className="footer-content">
-          <p>Built with Next.js and the Notion API</p>
-        </div>
-      </footer>
-      
+
       <style jsx>{`
         .database-container {
           display: flex;
@@ -119,65 +85,65 @@ const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
           min-height: 100vh;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
-        
+
         header {
           background-color: #f5f5f5;
           padding: 20px 0;
           border-bottom: 1px solid #eaeaea;
         }
-        
+
         .header-content {
           max-width: 1200px;
           margin: 0 auto;
           padding: 0 20px;
         }
-        
+
         header h1 {
           margin: 0;
           font-size: 1.8rem;
           font-weight: 600;
           color: #333;
         }
-        
+
         .subtitle {
           margin: 5px 0 0;
           color: #666;
         }
-        
+
         main {
           flex: 1;
           padding: 30px 0;
         }
-        
+
         .main-content {
           max-width: 1200px;
           margin: 0 auto;
           padding: 0 20px;
         }
-        
+
         .database-header {
           margin-bottom: 25px;
         }
-        
+
         .database-header h2 {
           margin: 0;
           font-size: 1.5rem;
           color: #333;
         }
-        
+
         .database-id {
           margin: 5px 0 0;
           color: #666;
           font-size: 0.9rem;
         }
-        
+
         .stats-container {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
           gap: 20px;
           margin-bottom: 30px;
         }
-        
+
         .stat-card {
           background-color: #f5f9ff;
           border-radius: 8px;
@@ -185,49 +151,49 @@ const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
           text-align: center;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-        
+
         .stat-card h3 {
           margin: 0;
           font-size: 2rem;
           color: #2563eb;
         }
-        
+
         .stat-card p {
           margin: 5px 0 0;
           color: #666;
         }
-        
+
         .calendar-wrapper {
           margin-bottom: 40px;
         }
-        
+
         .calendar-wrapper h3 {
           margin-bottom: 15px;
           font-size: 1.3rem;
           color: #333;
         }
-        
+
         .embed-instructions {
           margin-top: 40px;
           border-top: 1px solid #eaeaea;
           padding-top: 30px;
         }
-        
+
         .embed-instructions h3 {
           margin-bottom: 15px;
           font-size: 1.3rem;
           color: #333;
         }
-        
+
         .embed-instructions ol {
           margin-bottom: 20px;
           padding-left: 20px;
         }
-        
+
         .embed-instructions li {
           margin-bottom: 10px;
         }
-        
+
         code {
           background-color: #f5f5f5;
           padding: 2px 5px;
@@ -235,14 +201,14 @@ const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
           font-family: monospace;
           font-size: 0.9rem;
         }
-        
+
         .embed-preview {
           border: 1px solid #eaeaea;
           border-radius: 8px;
           overflow: hidden;
           margin-top: 20px;
         }
-        
+
         .preview-header {
           background-color: #f5f5f5;
           padding: 8px 12px;
@@ -250,11 +216,11 @@ const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
           font-size: 0.9rem;
           color: #666;
         }
-        
+
         .preview-content {
           padding: 20px;
         }
-        
+
         .preview-placeholder {
           background-color: #f9f9f9;
           border: 2px dashed #e5e5e5;
@@ -263,13 +229,13 @@ const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
           text-align: center;
           color: #999;
         }
-        
+
         footer {
           background-color: #f5f5f5;
           padding: 20px 0;
           border-top: 1px solid #eaeaea;
         }
-        
+
         .footer-content {
           max-width: 1200px;
           margin: 0 auto;

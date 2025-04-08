@@ -19,10 +19,21 @@ interface CalendarProps {
 
 const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
   // Months for top labels
-  const monthLabels = Array.from(new Set(
-    calendarData.flat().map(day => day.month)
-  ));
-  
+  const monthLabels = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
   // Function to get month label positions
   const getMonthLabelPosition = (month: string) => {
     for (let i = 0; i < calendarData.length; i++) {
@@ -33,15 +44,15 @@ const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
     }
     return 0;
   };
-  
+
   return (
     <div className="calendar-container">
       <div className="month-labels">
         {monthLabels.map((month) => (
-          <div 
-            key={month} 
-            className="month-label" 
-            style={{ 
+          <div
+            key={month}
+            className="month-label"
+            style={{
               gridColumnStart: getMonthLabelPosition(month) + 1,
               opacity: month === format(new Date(), 'MMM') ? 1 : 0.6
             }}
@@ -50,7 +61,7 @@ const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
           </div>
         ))}
       </div>
-      
+
       <div className="calendar-grid">
         {/* Day labels (left side) */}
         <div className="day-labels">
@@ -58,7 +69,7 @@ const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
           <div>Wed</div>
           <div>Fri</div>
         </div>
-        
+
         {/* Calendar cells */}
         <div className="weeks-container">
           {calendarData.map((week, weekIndex) => (
@@ -78,7 +89,7 @@ const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
           ))}
         </div>
       </div>
-      
+
       {/* Legend */}
       <div className="calendar-legend">
         <span>Less</span>
@@ -91,33 +102,34 @@ const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
         ))}
         <span>More</span>
       </div>
-      
+
       <style jsx>{`
         .calendar-container {
           margin: 20px 0;
           width: 100%;
           overflow-x: auto;
         }
-        
+
         .month-labels {
+          width: 742px;
           display: grid;
           grid-template-columns: repeat(53, 1fr);
           text-align: start;
           font-size: 12px;
           color: #666;
           margin-bottom: 5px;
-          padding-left: 30px;
+          margin-left: 30px;
         }
-        
+
         .month-label {
           grid-column: span 4;
         }
-        
+
         .calendar-grid {
           display: flex;
           width: 100%;
         }
-        
+
         .day-labels {
           display: flex;
           flex-direction: column;
@@ -127,19 +139,19 @@ const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
           font-size: 12px;
           height: 120px;
         }
-        
+
         .weeks-container {
           display: flex;
           flex-grow: 1;
         }
-        
+
         .week {
           display: flex;
           flex-direction: column;
           width: 11px;
           margin-right: 3px;
         }
-        
+
         .day-cell {
           height: 11px;
           width: 11px;
@@ -148,11 +160,11 @@ const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
           cursor: pointer;
           transition: transform 0.1s ease;
         }
-        
+
         .day-cell:hover {
           transform: scale(1.2);
         }
-        
+
         .calendar-legend {
           display: flex;
           align-items: center;
@@ -161,7 +173,7 @@ const ContributionCalendar: React.FC<CalendarProps> = ({ calendarData }) => {
           font-size: 12px;
           color: #666;
         }
-        
+
         .legend-cell {
           width: 11px;
           height: 11px;
