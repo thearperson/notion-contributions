@@ -11,7 +11,6 @@ interface NotionDatabaseInfo {
 }
 
 interface NotionEntry {
-  last_edited_time: string;
   properties: {
     [key: string]: {
       date: {
@@ -22,7 +21,6 @@ interface NotionEntry {
       };
     };
   };
-  [key: string]: unknown;
 }
 
 interface DayData {
@@ -58,6 +56,7 @@ export async function getDatabaseEntries(databaseId: string): Promise<NotionEntr
     const response = await notionClient.databases.query({
       database_id: databaseId,
     });
+    // @ts-expect-error: NotionEntry is not fully typed
     return response.results as NotionEntry[];
   } catch (error) {
     console.error('Error fetching database entries:', error);
