@@ -1,5 +1,5 @@
 import { Client } from '@notionhq/client';
-import { parseISO, format, startOfYear, endOfYear, eachDayOfInterval, getDay, addDays } from 'date-fns';
+import { format, startOfYear, endOfYear, eachDayOfInterval, getDay, addDays } from 'date-fns';
 
 // Define types
 interface NotionDatabaseInfo {
@@ -12,6 +12,13 @@ interface NotionDatabaseInfo {
 
 interface NotionEntry {
   last_edited_time: string;
+  properties: {
+    [key: string]: {
+      date: {
+        start: string;
+      };
+    };
+  };
   [key: string]: unknown;
 }
 
@@ -66,7 +73,7 @@ export function processDataForCalendar(entries: NotionEntry[]): Map<string, numb
   // Count entries by date
   const dateCountMap = new Map<string, number>();
 
-  entries.forEach(entry => {
+  entries.forEach((entry: NotionEntry) => {
     const dateString = entry.properties['Complete']['date']['start'];
 
     // Increment count for this date

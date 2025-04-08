@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import ContributionCalendar from '@/components/ContributionCalendar';
 import { formatDate } from '@/lib/utils';
 
