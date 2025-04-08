@@ -9,13 +9,6 @@ import {
 import { isValidDatabaseId, getContributionStats } from '@/lib/utils';
 import DatabasePageClient from './client';
 
-// Define the page props with a parameter for the database ID
-interface PageProps {
-  params: {
-    databaseId: string;
-  };
-}
-
 // Function to fetch all necessary data for the page
 async function fetchDatabaseData(databaseId: string) {
   try {
@@ -50,7 +43,9 @@ async function fetchDatabaseData(databaseId: string) {
   }
 }
 
-export default async function DatabasePage({ params }: PageProps) {
+export default async function DatabasePage(
+  { params }: { params: Promise<{ databaseId: string }> }
+) {
   const { databaseId } = await params;
 
   // Fetch data for the specified database
