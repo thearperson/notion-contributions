@@ -35,7 +35,6 @@ interface DatabasePageClientProps {
 
 const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
   databaseId,
-  databaseInfo,
   stats,
   calendarData
 }) => {
@@ -43,11 +42,6 @@ const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
     <div className="database-container">
       <main>
         <div className="main-content">
-          <div className="database-header">
-            <h2>{databaseInfo.title?.[0]?.plain_text || 'Untitled Database'}</h2>
-            <p className="database-id">Database ID: {databaseId}</p>
-          </div>
-
           <div className="stats-container">
             <div className="stat-card">
               <h3>{stats.totalContributions}</h3>
@@ -69,11 +63,11 @@ const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
             )}
           </div>
 
-          <div className="calendar-wrapper">
-            <h3>Contribution Calendar</h3>
-            <ContributionCalendar calendarData={calendarData} />
-          </div>
+          <ContributionCalendar calendarData={calendarData} />
 
+          <div className="database-footer">
+            <p className="database-id">Database ID: {databaseId}</p>
+          </div>
         </div>
       </main>
 
@@ -111,7 +105,7 @@ const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
 
         main {
           flex: 1;
-          padding: 30px 0;
+          padding: 10px 0;
         }
 
         .main-content {
@@ -120,20 +114,15 @@ const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
           padding: 0 20px;
         }
 
-        .database-header {
-          margin-bottom: 25px;
-        }
-
-        .database-header h2 {
-          margin: 0;
-          font-size: 1.5rem;
-          color: #333;
+        .database-footer {
+          margin-bottom: 5px;
         }
 
         .database-id {
           margin: 5px 0 0;
           color: #666;
-          font-size: 0.9rem;
+          font-size: 0.6rem;
+          text-align: right;
         }
 
         .stats-container {
@@ -160,16 +149,6 @@ const DatabasePageClient: React.FC<DatabasePageClientProps> = ({
         .stat-card p {
           margin: 5px 0 0;
           color: #666;
-        }
-
-        .calendar-wrapper {
-          margin-bottom: 40px;
-        }
-
-        .calendar-wrapper h3 {
-          margin-bottom: 15px;
-          font-size: 1.3rem;
-          color: #333;
         }
 
         .embed-instructions {
